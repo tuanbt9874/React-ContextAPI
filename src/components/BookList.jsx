@@ -1,6 +1,7 @@
-import React, { Component , useContext} from "react";
+import React, { useContext } from "react";
 import { ThemeContext } from "../context/ThemeContext";
 import { AuthContext } from "../context/AuthContext";
+import { BookContext } from "../context/BookContext";
 // ! Context API: Clean and easy way to share state between difference components
 // ! without pass props down
 // ! Hook allow to do with bunch of stuff inside functional component that we normally only do inside class component
@@ -9,8 +10,8 @@ import { AuthContext } from "../context/AuthContext";
 // Note: Context is design to share data that can be considered "global" for a tree of React
 // Note: components, such as the current authenticated user, theme, preferred languages, => global data
 // Note: Answer question: Is data that I want to share global and it is used in several child components => YES => use it
-// Note: We have 2 ways for accessing context value : 
-// Note: 1- Using context-type (used for only class) 
+// Note: We have 2 ways for accessing context value :
+// Note: 1- Using context-type (used for only class)
 // Note: 2- Using consumer (both class and function)                                                                                                //  => NO  => use component composition
 
 // ! Only using Context  API
@@ -52,22 +53,32 @@ class BookList extends Component {
 */
 
 const BookList = () => {
-  const {isLightTheme, light, dark} = useContext(ThemeContext);
-  const {isAuthenticated, toggleAuth} = useContext(AuthContext);
+  const { isLightTheme, light, dark } = useContext(ThemeContext);
+  const { isAuthenticated, toggleAuth } = useContext(AuthContext);
+  const { books, setBook } = useContext(BookContext);
   const theme = isLightTheme ? light : dark;
 
-  return ( 
-    <div className="book-list" style={{ background: theme.bg, color: theme.syntax }} >
-        <div onClick={toggleAuth}>{isAuthenticated ? "Log in" : "Log out"}</div>
-          <ul>
-            <li style={{ background: theme.ui }}>the way of kings</li>
+  return (
+    <div
+      className="book-list" style={{ background: theme.bg, color: theme.syntax }}>
+      <div onClick={toggleAuth}>{isAuthenticated ? "Log in" : "Log out"}</div>
+      <ul>{
+          books.map(book => {
+          return (
+            <li style={{ background: theme.ui }} key={book.id}>
+              {book.title}
+            </li>
+          )
+        }) 
+        }
+        {/* <li style={{ background: theme.ui }}>the way of kings</li>
             <li style={{ background: theme.ui }}>
                       the name of the wind
             </li>
-            <li style={{ background: theme.ui }}>the final empire</li>
-          </ul>
-        </div>
-   );
-}
- 
+            <li style={{ background: theme.ui }}>the final empire</li> */}
+      </ul>
+    </div>
+  );
+};
+
 export default BookList;
