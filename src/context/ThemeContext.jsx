@@ -3,7 +3,7 @@ import React, { createContext, Component } from "react";
 export const ThemeContext = createContext();
 
 // This class is store value for sharing
-class ThemeConextProvider extends Component {
+class ThemeContextProvider extends Component {
   state = {
     // variable to for checking theme
     isLightTheme: true,
@@ -26,4 +26,4 @@ class ThemeConextProvider extends Component {
   }
 }
 
-export default ThemeConextProvider;
+export default ThemeContextProvider;
