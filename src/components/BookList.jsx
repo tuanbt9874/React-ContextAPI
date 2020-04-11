@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component , useContext} from "react";
 import { ThemeContext } from "../context/ThemeContext";
 import { AuthContext } from "../context/AuthContext";
 // ! Context API: Clean and easy way to share state between difference components
@@ -13,6 +13,8 @@ import { AuthContext } from "../context/AuthContext";
 // Note: 1- Using context-type (used for only class) 
 // Note: 2- Using consumer (both class and function)                                                                                                //  => NO  => use component composition
 
+// ! Only using Context  API
+/*
 class BookList extends Component {
   render() {
     //  Another way used
@@ -47,7 +49,25 @@ class BookList extends Component {
     );
   }
 }
+*/
 
+const BookList = () => {
+  const {isLightTheme, light, dark} = useContext(ThemeContext);
+  const {isAuthenticated, toggleAuth} = useContext(AuthContext);
+  const theme = isLightTheme ? light : dark;
 
-
+  return ( 
+    <div className="book-list" style={{ background: theme.bg, color: theme.syntax }} >
+        <div onClick={toggleAuth}>{isAuthenticated ? "Log in" : "Log out"}</div>
+          <ul>
+            <li style={{ background: theme.ui }}>the way of kings</li>
+            <li style={{ background: theme.ui }}>
+                      the name of the wind
+            </li>
+            <li style={{ background: theme.ui }}>the final empire</li>
+          </ul>
+        </div>
+   );
+}
+ 
 export default BookList;
